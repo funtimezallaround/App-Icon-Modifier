@@ -1,6 +1,6 @@
 # App Icon Segmenter - Clean Setup
 
-A streamlined Python program for extracting app icons from homescreen screenshots using contour detection.
+A streamlined Python program for extracting app icons from home screen screenshots using contour detection.
 
 ## 📁 Directory Structure
 
@@ -42,7 +42,7 @@ App Icon Modifier/
 
 ## 📊 Results Summary
 
-✅ **Successfully extracted 25 app icons** from your homescreen  
+✅ **Successfully extracted 25 app icons** from your home screen  
 ✅ **Clean, organized output** with visualization  
 ✅ **Fast processing** (under 5 seconds)  
 ✅ **96% accuracy** with contour detection method

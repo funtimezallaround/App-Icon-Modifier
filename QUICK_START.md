@@ -3,7 +3,7 @@
 ## App Icon Processor - One Command Solution
 
 ### What This Does
-✨ Converts homescreen screenshots → Clean app icons with transparent backgrounds
+✨ Converts home screen screenshots → Clean app icons with transparent backgrounds
 
 ### How to Use
 

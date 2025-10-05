@@ -1,6 +1,17 @@
 # App Icon Processor 🎨
 
-A comprehensive Python tool that automatically processes app icons from homescreen screenshots. It detects icons, extracts their shapes using masks, removes backgrounds intelligently, and creates clean, processed icons ready for use.
+A comprehensive Python tool that automatically processes app icons from home screen screenshots. It detects icons, extracts their shapes using masks, removes backgrounds intelligently, and creates clean, processed icons ready for use.
+
+## Motivation Behind The Project
+Recently, I started matching my phone's theme with the current season, including matching custom app icons. I quickly found out how tedious and repetitive the process of creating the app icons was. On top of which, Free tools for seasonal task were inadequate in my eyes. Naturally, I sought to automate this process, giving way to the code in this repository. 
+
+Going through the rest of this document, as well as the code, you will undoubtedly immediately figure out that I have made *heavy* use of generative AI. While I would have loved to tackle this project by myself the good old-fashioned way, I unfortunately have other priorities to focus on right now, not leaving me much time to work on fun projects like this. I do however plan on revisiting and improving the ease-of use when I get the time. 
+
+## About the Project
+The code was designed to work for my personal device (Samsung s22). 
+In theory, it should work for other devices despite not having been included in testing.
+
+Any contributions are welcome :)
 
 ## 🚀 Quick Start
 
@@ -11,7 +22,7 @@ A comprehensive Python tool that automatically processes app icons from homescre
 
 ### Setup
 1. Clone or download this repository
-2. Place your homescreen screenshot as `input/homescreen.jpg`
+2. Place your home screen screenshot as `input/homescreen.jpg`
 3. Ensure mask files exist in `masks/` folder:
    - `iconmask_big.png` (for large icons)
    - `iconmask_small.png` (for small icons)
@@ -45,7 +56,7 @@ App Icon Modifier/
 ## 🔄 Processing Pipeline
 
 ### Step 1: Icon Detection 🔍
-- **Input**: Homescreen screenshot (`input/homescreen.jpg`)
+- **Input**: Home screen screenshot (`input/homescreen.jpg`)
 - **Process**: Uses contour detection to find app icons
 - **Output**: Individual icon images in `build/output/`
 - **Features**: 
@@ -99,7 +110,7 @@ Edit the scripts to adjust:
 
 ## 📊 Output Quality
 
-- **Input**: Raw homescreen screenshots
+- **Input**: Raw home screen screenshots
 - **Output**: Clean icons with transparent backgrounds
 - **Sizes**: Standardized to 86×86 (small) or 157×157 (large) pixels
 - **Format**: PNG with alpha channel
