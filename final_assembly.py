@@ -36,7 +36,7 @@ for path in os.listdir("build/extracted_shapes"):
         shape = cv2.cvtColor(shape, cv2.COLOR_BGR2BGRA)
     
     # Enhanced color ranking with tolerance-based grouping
-    tolerance = 50 
+    tolerance = 60
     
     # Get all pixels and their unique colors
     pixels = shape.reshape(-1, shape.shape[-1])

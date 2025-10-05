@@ -39,51 +39,61 @@ def apply_mask_to_icon(icon_path: str, mask_path: str, output_path: str) -> bool
         
         print(f"  📏 Icon: {icon.shape}, Mask: {mask.shape}")
         
-        # Get dimensions
-        icon_h, icon_w = icon.shape[:2]
+        # Store original icon dimensions for later scaling
+        original_icon_h, original_icon_w = icon.shape[:2]
+        
+        # Get mask dimensions
         mask_h, mask_w = mask.shape[:2]
         
-        # Instead of stretching mask to full icon size, center it properly
-        # This maintains the mask's proportions and centers it on the icon
+        # Crop icon to match mask size (center crop)
+        start_y = (original_icon_h - mask_h) // 2
+        start_x = (original_icon_w - mask_w) // 2
+        end_y = start_y + mask_h
+        end_x = start_x + mask_w
         
-        # Calculate scale factor to fit mask proportionally within icon
-        scale_factor = min(icon_w / mask_w, icon_h / mask_h) * 0.9  # 0.9 for slight margin
+        # Ensure crop boundaries are within image bounds
+        start_y = max(0, start_y)
+        start_x = max(0, start_x)
+        end_y = min(original_icon_h, end_y)
+        end_x = min(original_icon_w, end_x)
         
-        # Resize mask proportionally
-        new_mask_w = int(mask_w * scale_factor)
-        new_mask_h = int(mask_h * scale_factor)
-        scaled_mask = cv2.resize(mask, (new_mask_w, new_mask_h), interpolation=cv2.INTER_NEAREST)
+        icon_cropped = icon[start_y:end_y, start_x:end_x]
+        print(f"  ✂️ Cropped icon from {original_icon_w}x{original_icon_h} to {icon_cropped.shape[1]}x{icon_cropped.shape[0]}")
         
-        # Create a full-size mask canvas
-        full_mask = np.zeros((icon_h, icon_w), dtype=np.uint8)
+        # If cropped size doesn't match mask exactly, resize to match
+        if icon_cropped.shape[:2] != (mask_h, mask_w):
+            icon_cropped = cv2.resize(icon_cropped, (mask_w, mask_h), interpolation=cv2.INTER_CUBIC)
+            print(f"  📏 Adjusted crop to exactly {mask_w}x{mask_h}")
         
-        # Center the scaled mask on the canvas
-        start_x = (icon_w - new_mask_w) // 2
-        start_y = (icon_h - new_mask_h) // 2
-        end_x = start_x + new_mask_w
-        end_y = start_y + new_mask_h
-        
-        # Convert scaled mask to grayscale if needed
-        if len(scaled_mask.shape) == 3:
-            scaled_mask_gray = cv2.cvtColor(scaled_mask, cv2.COLOR_BGR2GRAY)
+        # Convert mask to grayscale if needed
+        if len(mask.shape) == 3:
+            mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
         else:
-            scaled_mask_gray = scaled_mask
+            mask_gray = mask
         
-        # Place centered mask
-        full_mask[start_y:end_y, start_x:end_x] = scaled_mask_gray
+        print(f"  🎯 Applying {mask_w}x{mask_h} mask to {mask_w}x{mask_h} cropped icon")
         
-        print(f"  🎯 Centered {new_mask_w}x{new_mask_h} mask on {icon_w}x{icon_h} icon")
+        # Ensure cropped icon has alpha channel
+        if len(icon_cropped.shape) == 3 and icon_cropped.shape[2] == 3:
+            icon_cropped = cv2.cvtColor(icon_cropped, cv2.COLOR_BGR2BGRA)
         
-        # Ensure icon has alpha channel
-        if len(icon.shape) == 3 and icon.shape[2] == 3:
-            icon = cv2.cvtColor(icon, cv2.COLOR_BGR2BGRA)
-        
-        # Apply mask to icon's alpha channel
-        result = icon.copy()
+        # Apply mask to cropped icon's alpha channel
+        result = icon_cropped.copy()
         
         # Where mask is white (255), keep icon; where black (0), make transparent
-        alpha_mask = np.where(full_mask > 127, 255, 0).astype(np.uint8)
-        result[:, :, 3] = np.minimum(icon[:, :, 3], alpha_mask)
+        alpha_mask = np.where(mask_gray > 127, 255, 0).astype(np.uint8)
+        result[:, :, 3] = np.minimum(icon_cropped[:, :, 3], alpha_mask)
+        
+        # Determine target size based on original icon filename
+        filename = os.path.basename(icon_path)
+        if 'large' in filename or '157x157' in filename:
+            target_size = (157, 157)
+        else:
+            target_size = (86, 86)
+        
+        # Scale result back to target size
+        result = cv2.resize(result, target_size, interpolation=cv2.INTER_CUBIC)
+        print(f"  📏 Scaled result back to {target_size[0]}x{target_size[1]}")
         
         # Save result
         success = cv2.imwrite(output_path, result)

@@ -14,8 +14,8 @@ img = cv2.imread(src_img)
 small_mask = cv2.imread('masks/iconmask_small.png', cv2.IMREAD_UNCHANGED)
 big_mask = cv2.imread('masks/iconmask_big.png', cv2.IMREAD_UNCHANGED)
 
-small_mask = cv2.resize(small_mask, (86, 86))
-big_mask = cv2.resize(big_mask, (157, 157))
+small_mask = cv2.resize(small_mask, (86, 86), interpolation=cv2.INTER_AREA)
+big_mask = cv2.resize(big_mask, (157, 157), interpolation=cv2.INTER_AREA)
 
 # find edges
 # img_blurred = cv2.GaussianBlur(img, (5, 5), 0)
