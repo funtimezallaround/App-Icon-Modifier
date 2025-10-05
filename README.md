@@ -58,18 +58,18 @@ App Icon Modifier/
 - **Process**: Applies icon masks to extract proper shapes
 - **Output**: Shaped icons in `build/extracted_shapes/`
 - **Features**:
-  - Center cropping to mask size
+  - Centre cropping to mask size
   - Perfect mask alignment
   - No transparency borders
   - Scales back to target sizes (86×86 or 157×157)
 
 ### Step 3: Background Removal 🎯
 - **Input**: Shaped icons from Step 2
-- **Process**: Intelligent color analysis and background removal
+- **Process**: Intelligent colour analysis and background removal
 - **Output**: Final clean icons in `new_icons/`
 - **Features**:
-  - Color tolerance-based grouping (±60 RGB values)
-  - Automatic background color detection
+  - Colour tolerance-based grouping (±60 RGB values)
+  - Automatic background colour detection
   - Preserves foreground details
   - High-quality transparency
 
@@ -116,7 +116,7 @@ Edit the scripts to adjust:
 
 **"Background not fully removed"**
 - Increase `tolerance` value in final_assembly.py (try 75-100)
-- Check if background has consistent colors
+- Check if background has consistent colours
 
 **"Masks not fitting properly"**
 - Verify mask files are correct dimensions
@@ -144,7 +144,7 @@ Feel free to:
 - Add new processing features
 - Optimize performance
 
-## 📄 License
+## 📄 Licence
 
 This project is open source. Use freely for personal and commercial projects.
 
