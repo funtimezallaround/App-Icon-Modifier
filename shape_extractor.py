@@ -160,7 +160,7 @@ def get_icon_size_category(icon_path: str) -> str:
     return 'large'
 
 
-def extract_all_icon_shapes(input_dir: str = "output", output_dir: str = "extracted_shapes") -> None:
+def extract_all_icon_shapes(input_dir: str = "build/output", output_dir: str = "build/extracted_shapes") -> None:
     """
     Extract shapes from all icons in the input directory using appropriate masks.
     
@@ -253,7 +253,7 @@ def extract_all_icon_shapes(input_dir: str = "output", output_dir: str = "extrac
     print(f"📁 Results saved to: {output_dir}")
 
 
-def create_shape_preview(input_dir: str = "output", output_dir: str = "extracted_shapes") -> None:
+def create_shape_preview(input_dir: str = "build/output", output_dir: str = "build/extracted_shapes") -> None:
     """
     Create a preview grid showing original icons vs shape-extracted versions.
     
@@ -326,8 +326,10 @@ def create_shape_preview(input_dir: str = "output", output_dir: str = "extracted
         y_offset = cell_size + 5
         preview[y_offset:y_offset+cell_size-10, x_offset:x_offset+cell_size-10] = extracted_resized
     
-    # Save preview
-    preview_path = "shape_extraction_preview.png"
+    # Save preview to build folder
+    build_dir = "build"
+    os.makedirs(build_dir, exist_ok=True)
+    preview_path = os.path.join(build_dir, "shape_extraction_preview.png")
     cv2.imwrite(preview_path, preview)
     print(f"✅ Preview saved: {preview_path}")
 

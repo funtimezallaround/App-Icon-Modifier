@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from typing import List, Tuple
 
-def detect_app_icons(image_path: str, output_dir: str = "output", 
+def detect_app_icons(image_path: str, output_dir: str = "build/output", 
                     min_area: int = 1000, max_area: int = 50000) -> List[Tuple]:
     """
     Detect and segment app icons from a homescreen screenshot using contour detection
@@ -209,7 +209,7 @@ def main():
     
     # Configuration
     input_image = "input/homescreen.jpg"
-    output_dir = "output"
+    output_dir = "build/output"
     
     print("🎯 APP ICON SEGMENTER - CONTOUR METHOD")
     print("=" * 50)

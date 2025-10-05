@@ -13,8 +13,8 @@ def create_alignment_comparison():
     
     print("🔍 Creating alignment comparison...")
     
-    # Get some sample icons
-    icon_files = sorted(glob.glob("output/icon_*.png"))[:6]  # First 6 icons
+    # Get some sample icons from build folder
+    icon_files = sorted(glob.glob("build/output/icon_*.png"))[:6]  # First 6 icons
     
     if not icon_files:
         print("❌ No icons found")
@@ -60,7 +60,6 @@ def create_alignment_comparison():
         # Create old method (stretched mask)
         icon_h, icon_w = icon.shape[:2]
         old_mask = cv2.resize(mask, (icon_w, icon_h), interpolation=cv2.INTER_NEAREST)
-        old_result = icon.copy()
         
         if len(old_mask.shape) == 3:
             old_mask_gray = cv2.cvtColor(old_mask, cv2.COLOR_BGR2GRAY)
@@ -130,9 +129,12 @@ def create_alignment_comparison():
         cv2.putText(comparison, "New (Centered)", (col * cell_width * 3 + cell_width * 2 + 5, label_y), 
                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 150, 0), 1)
     
-    # Save comparison
-    cv2.imwrite("alignment_comparison.png", comparison)
-    print("✅ Alignment comparison saved: alignment_comparison.png")
+    # Save comparison to build folder
+    build_dir = "build"
+    os.makedirs(build_dir, exist_ok=True)
+    comparison_path = os.path.join(build_dir, "alignment_comparison.png")
+    cv2.imwrite(comparison_path, comparison)
+    print(f"✅ Alignment comparison saved: {comparison_path}")
     print("🟢 Green = mask area, 🔴 Red = outside mask")
 
 if __name__ == "__main__":

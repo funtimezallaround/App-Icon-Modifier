@@ -99,7 +99,7 @@ def apply_mask_to_icon(icon_path: str, mask_path: str, output_path: str) -> bool
         return False
 
 
-def extract_shapes_from_output_folder():
+def extract_shapes_from_output_folder(input_dir="build/output"):
     """Extract shapes from all icons in the output folder using masks."""
     
     print("🔍 Cookie Cutter - Shape Extraction")
@@ -119,13 +119,14 @@ def extract_shapes_from_output_folder():
     if os.path.exists(small_mask):  
         print(f"  - Small mask: {small_mask}")
     
-    # Create output directory
-    output_dir = "extracted_shapes"
+    # Create build directory
+    build_dir = "build"
+    output_dir = os.path.join(build_dir, "extracted_shapes")
     os.makedirs(output_dir, exist_ok=True)
     print(f"📁 Output: {output_dir}")
     
-    # Find icons in output folder
-    icon_files = glob.glob("output/icon_*.png")
+    # Find icons in the specified input folder
+    icon_files = glob.glob(f"{input_dir}/icon_*.png")
     print(f"🎯 Found {len(icon_files)} icons")
     print()
     
@@ -185,7 +186,7 @@ def create_mask_visualization():
     small_mask_path = "masks/iconmask_small.png"
     
     # Load first few icons for demo
-    icon_files = sorted(glob.glob("output/icon_*.png"))[:4]
+    icon_files = sorted(glob.glob("build/output/icon_*.png"))[:4]
     
     if not icon_files:
         print("❌ No icons found for visualization")
